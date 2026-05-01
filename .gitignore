@@ -1,0 +1,14 @@
+# Build artifacts
+*.o
+*.elf
+*.bin
+*.img
+
+# But keep source binaries tracked if needed — comment above lines selectively
+# Disk image
+disk.img
+
+# Editor
+.vscode/
+*.swp
+*~
