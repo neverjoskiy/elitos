@@ -3,20 +3,31 @@ ENTRY(_start)
 
 SECTIONS
 {
-    . = 0x1000;
-    
+    . = 0x100000;
+
+    .multiboot :
+    {
+        *(.multiboot)
+    }
+
     .text :
     {
         *(.text*)
     }
-    
+
     .data :
     {
         *(.data*)
     }
-    
+
+    .rodata :
+    {
+        *(.rodata*)
+    }
+
     .bss :
     {
+        *(COMMON)
         *(.bss*)
     }
 }

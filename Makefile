@@ -64,4 +64,18 @@ disk: kernel.bin
 	dd if=boot/bootloader.bin of=disk.img conv=notrunc
 	dd if=kernel.bin of=disk.img seek=1 conv=notrunc
 
-.PHONY: all clean run disk
+iso: kernel.bin
+	mkdir -p iso/boot/grub
+	cp kernel.bin iso/boot/kernel.bin
+	echo 'set timeout=0'                          > iso/boot/grub/grub.cfg
+	echo 'set default=0'                         >> iso/boot/grub/grub.cfg
+	echo 'menuentry "elitos" {'                  >> iso/boot/grub/grub.cfg
+	echo '    multiboot /boot/kernel.bin'        >> iso/boot/grub/grub.cfg
+	echo '    boot'                              >> iso/boot/grub/grub.cfg
+	echo '}'                                     >> iso/boot/grub/grub.cfg
+	grub-mkrescue -o elitos.iso iso
+
+run-iso: elitos.iso
+	qemu-system-i386 -cdrom elitos.iso
+
+.PHONY: all clean run disk iso run-iso
